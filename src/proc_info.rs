@@ -73,18 +73,23 @@ pub struct ProcCollector {
     hz: u64,
     boot_time: u64,
     uid_cache: HashMap<u32, String>,
+    num_cpus: usize,
 }
 
 impl ProcCollector {
     pub fn new() -> Self {
         let hz = unsafe { libc::sysconf(libc::_SC_CLK_TCK) } as u64;
         let boot_time = read_boot_time();
+        let num_cpus = std::thread::available_parallelism()
+            .map(|n| n.get())
+            .unwrap_or(1);
         Self {
             prev_cpu: None,
             prev_proc_times: HashMap::new(),
             hz,
             boot_time,
             uid_cache: HashMap::new(),
+            num_cpus,
         }
     }
 
@@ -161,7 +166,7 @@ impl ProcCollector {
         let cpu_percent = if let Some(&(prev_total, _prev_cpu_total)) = self.prev_proc_times.get(&pid)
         {
             let proc_delta = total_time.saturating_sub(prev_total);
-            (proc_delta as f64 / cpu_delta_total as f64) * 100.0
+            (proc_delta as f64 / cpu_delta_total as f64) * 100.0 * self.num_cpus as f64
         } else {
             0.0
         };
