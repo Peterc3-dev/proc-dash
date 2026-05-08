@@ -11,13 +11,13 @@ use ratatui::{
 use crate::app::{App, InputMode, Signal, SortColumn, Tab};
 
 // Phosphor green theme
-const GREEN: Color = Color::Rgb(0, 255, 136);
-const DIM_GREEN: Color = Color::Rgb(0, 180, 90);
-const DARK_GREEN: Color = Color::Rgb(0, 80, 40);
+const GREEN: Color = Color::Rgb(0, 255, 200);
+const DIM_GREEN: Color = Color::Rgb(0, 200, 156);
+const DARK_GREEN: Color = Color::Rgb(0, 50, 40);
 const YELLOW: Color = Color::Rgb(255, 230, 50);
 const RED: Color = Color::Rgb(255, 60, 60);
-const CYAN: Color = Color::Rgb(80, 255, 220);
-const WHITE: Color = Color::Rgb(220, 255, 220);
+const CYAN: Color = Color::Rgb(100, 255, 240);
+const WHITE: Color = Color::Rgb(220, 255, 245);
 
 pub fn draw(f: &mut Frame, app: &App) {
     let size = f.area();
